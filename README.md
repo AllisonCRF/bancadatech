@@ -8,4 +8,4 @@ O workflow em `.github/workflows/deploy-pages.yml` publica `index.html` automati
 
 Na primeira publicação, configure o repositório em **Settings → Pages → Build and deployment → Source → GitHub Actions**. Depois, acompanhe a execução em **Actions**. Quando terminar, o site ficará disponível em:
 
-https://allisoncrf.github.io/bancada-tech/
+
