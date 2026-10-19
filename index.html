@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Bancada Tech – Montagem e manutenção de computadores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f3f5f1;
+        --surface: #ffffff;
+        --ink: #1e2421;
+        --muted: #53605a;
+        --green: #14392f;
+        --on-green: #f3f5f1;
+        --gold: #d9a441;
+        --line: #cfd6d0;
+        --wa: #14392f;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #0e1814;
+          --surface: #16251f;
+          --ink: #e8ede9;
+          --muted: #9daea5;
+          --green: #1d4d3f;
+          --on-green: #f3f5f1;
+          --line: #2a3d35;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #0e1814;
+        --surface: #16251f;
+        --ink: #e8ede9;
+        --muted: #9daea5;
+        --green: #1d4d3f;
+        --on-green: #f3f5f1;
+        --line: #2a3d35;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          400 17px/1.6 "IBM Plex Sans",
+          system-ui,
+          sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family:
+          "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+        line-height: 1.08;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 3px;
+      }
+      .wrap {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
+      .btn {
+        display: inline-block;
+        background: var(--gold);
+        color: #1e2421;
+        font:
+          700 17px "Bricolage Grotesque",
+          sans-serif;
+        padding: 15px 26px;
+        border-radius: 6px;
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn:hover {
+        filter: brightness(1.06);
+      }
+      header {
+        background: var(--green);
+        color: var(--on-green);
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 0;
+      }
+      .logo {
+        font:
+          800 22px "Bricolage Grotesque",
+          sans-serif;
+        text-decoration: none;
+      }
+      .logo span {
+        color: var(--gold);
+      }
+      nav a.link {
+        font-size: 15px;
+        text-decoration: none;
+        opacity: 0.9;
+      }
+      .hero {
+        position: relative;
+        padding: 44px 0 72px;
+        overflow: hidden;
+      }
+      .traces {
+        position: absolute;
+        right: -40px;
+        top: 0;
+        width: 520px;
+        max-width: 100%;
+        opacity: 0.35;
+        pointer-events: none;
+      }
+      .hero h1 {
+        font-size: clamp(40px, 8vw, 76px);
+        font-weight: 800;
+        max-width: 11ch;
+        position: relative;
+      }
+      .hero p {
+        max-width: 34em;
+        font-size: 19px;
+        margin: 22px 0 28px;
+        position: relative;
+        color: var(--on-green);
+      }
+      .hero .row {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        flex-wrap: wrap;
+        position: relative;
+      }
+      .hero small {
+        opacity: 0.85;
+      }
+      section {
+        padding: 68px 0;
+      }
+      section h2 {
+        font-size: clamp(30px, 5vw, 44px);
+        margin-bottom: 12px;
+      }
+      .lead {
+        color: var(--muted);
+        max-width: 36em;
+        margin: 0 0 34px;
+      }
+      .services {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      .services div {
+        padding: 26px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin: 0 -1px -1px 0;
+      }
+      .services h3 {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .services p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      .steps {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 0;
+        counter-reset: s;
+        border-left: 3px solid var(--gold);
+      }
+      .steps li {
+        counter-increment: s;
+        padding: 6px 0 26px 26px;
+        position: relative;
+      }
+      .steps li:before {
+        content: counter(s);
+        position: absolute;
+        left: -17px;
+        top: 4px;
+        width: 31px;
+        height: 31px;
+        border-radius: 50%;
+        background: var(--green);
+        color: var(--on-green);
+        font:
+          700 15px/31px "Bricolage Grotesque",
+          sans-serif;
+        text-align: center;
+      }
+      .steps h3 {
+        font-size: 21px;
+        margin-bottom: 4px;
+      }
+      .steps p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .quote {
+        background: var(--green);
+        color: var(--on-green);
+      }
+      .quote .lead {
+        color: var(--on-green);
+        opacity: 0.88;
+      }
+      form {
+        display: grid;
+        gap: 14px;
+        max-width: 560px;
+      }
+      label {
+        font-weight: 500;
+        font-size: 15px;
+      }
+      select,
+      textarea,
+      input {
+        width: 100%;
+        font: inherit;
+        padding: 13px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        margin-top: 6px;
+      }
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+      .guar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 26px;
+      }
+      .guar h3 {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+      .guar p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      details {
+        border-bottom: 1px solid var(--line);
+        padding: 16px 0;
+      }
+      summary {
+        font:
+          700 19px "Bricolage Grotesque",
+          sans-serif;
+        cursor: pointer;
+      }
+      details p {
+        margin: 10px 0 0;
+        color: var(--muted);
+      }
+      footer {
+        background: var(--green);
+        color: var(--on-green);
+        padding: 44px 0 48px;
+      }
+      footer .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        justify-content: space-between;
+      }
+      footer p {
+        margin: 4px 0;
+      }
+      .wa-float {
+        position: fixed;
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        z-index: 5;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <nav>
+          <a class="logo" href="#">Bancada<span>Tech</span></a
+          ><a class="link" href="#orcamento">Pedir orçamento</a>
+        </nav>
+        <div class="hero">
+          <svg
+            class="traces"
+            viewBox="0 0 520 360"
+            fill="none"
+            stroke="#D9A441"
+            stroke-width="3"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M0 60h180l40 40h160l40-40h100" />
+            <path d="M0 150h120l50 50h210l30 30h110" />
+            <path d="M0 250h220l30-30h130l40 40h100" />
+            <path d="M60 0v60M300 0v100M440 60v90" />
+            <circle cx="180" cy="60" r="7" />
+            <circle cx="380" cy="100" r="7" />
+            <circle cx="120" cy="150" r="7" />
+            <circle cx="380" cy="200" r="7" />
+            <circle cx="220" cy="250" r="7" />
+          </svg>
+          <h1>Seu computador de volta, sem enrolação.</h1>
+          <p>
+            Montagem, manutenção e upgrade de computadores e notebooks. Você
+            recebe o orçamento com peças, mão de obra, prazo e garantia antes de
+            aprovar qualquer coisa.
+          </p>
+          <div class="row">
+            <a class="btn" href="#orcamento">Pedir orçamento grátis</a
+            ><small>Resposta pelo WhatsApp</small>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="servicos">
+        <div class="wrap">
+          <h2>O que fazemos</h2>
+          <p class="lead">Do PC que não liga ao PC novo montado sob medida.</p>
+          <div class="services">
+            <div>
+              <h3>Montagem de PC</h3>
+              <p>
+                Configuração para jogos, trabalho ou estudo, dentro do seu
+                orçamento. Montado, testado e com Windows instalado.
+              </p>
+            </div>
+            <div>
+              <h3>Manutenção</h3>
+              <p>
+                Diagnóstico de lentidão, travamentos, tela azul,
+                superaquecimento e equipamentos que não ligam.
+              </p>
+            </div>
+            <div>
+              <h3>Limpeza e pasta térmica</h3>
+              <p>
+                Limpeza interna completa e troca de pasta térmica para baixar a
+                temperatura e o barulho.
+              </p>
+            </div>
+            <div>
+              <h3>Upgrade</h3>
+              <p>
+                SSD, mais memória ou placa de vídeo. Muitas vezes é mais barato
+                que comprar outro computador.
+              </p>
+            </div>
+            <div>
+              <h3>Formatação</h3>
+              <p>
+                Windows, drivers e programas instalados do jeito que você usa.
+                Backup dos seus arquivos sob consulta.
+              </p>
+            </div>
+            <div>
+              <h3>Vírus e otimização</h3>
+              <p>
+                Remoção de ameaças e ajustes para o computador voltar a
+                responder rápido.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="como" style="background: var(--surface)">
+        <div class="wrap">
+          <h2>Como funciona</h2>
+          <p class="lead">Quatro passos, com você informado em todos.</p>
+          <ol class="steps">
+            <li>
+              <h3>Você conta o problema</h3>
+              <p>Pelo WhatsApp, com foto ou vídeo se puder.</p>
+            </li>
+            <li>
+              <h3>Receba o orçamento</h3>
+              <p>
+                Com valores separados de peças e mão de obra, prazo e validade.
+              </p>
+            </li>
+            <li>
+              <h3>Você aprova</h3>
+              <p>
+                Só começamos depois da sua confirmação. Se surgir custo extra,
+                avisamos antes.
+              </p>
+            </li>
+            <li>
+              <h3>Retire com garantia</h3>
+              <p>
+                Equipamento testado, pronto para uso e com 90 dias de garantia
+                no serviço.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="quote" id="orcamento">
+        <div class="wrap">
+          <h2>Peça seu orçamento</h2>
+          <p class="lead">
+            Preencha e o WhatsApp abre com a mensagem pronta. É só enviar.
+          </p>
+          <form id="f">
+            <label
+              >Serviço<select id="srv">
+                <option>Montagem de PC</option>
+                <option>Manutenção / conserto</option>
+                <option>Limpeza e pasta térmica</option>
+                <option>Upgrade de peças</option>
+                <option>Formatação</option>
+                <option>Outro</option>
+              </select></label
+            >
+            <label
+              >Equipamento<input
+                id="eq"
+                placeholder="Ex.: notebook Dell Inspiron, PC desktop"
+            /></label>
+            <label
+              >O que está acontecendo?<textarea
+                id="msg"
+                placeholder="Conte o problema ou, na montagem, o uso e o orçamento aproximado"
+              ></textarea>
+            </label>
+            <button class="btn" type="submit">Enviar pelo WhatsApp</button>
+          </form>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>Nosso compromisso</h2>
+          <p class="lead">O que você pode esperar de qualquer serviço.</p>
+          <div class="guar">
+            <div>
+              <h3>Preço combinado</h3>
+              <p>
+                O valor aprovado é o valor cobrado. Mudanças só com a sua
+                autorização.
+              </p>
+            </div>
+            <div>
+              <h3>90 dias de garantia</h3>
+              <p>
+                Nos serviços realizados. Peças seguem a garantia do fabricante.
+              </p>
+            </div>
+            <div>
+              <h3>Prazo informado</h3>
+              <p>
+                Você sabe quando fica pronto e recebe atualizações pelo
+                WhatsApp.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background: var(--surface)">
+        <div class="wrap">
+          <h2>Perguntas frequentes</h2>
+          <details>
+            <summary>O orçamento é grátis?</summary>
+            <p>
+              Sim, quando é feito pelo WhatsApp com base nas informações e
+              fotos. Se for preciso abrir o equipamento para diagnosticar, o
+              valor do diagnóstico é combinado antes e abatido se você aprovar o
+              serviço.
+            </p>
+          </details>
+          <details>
+            <summary>Quanto tempo leva?</summary>
+            <p>
+              Serviços como formatação e limpeza costumam ficar prontos em 1 a 3
+              dias úteis. Montagens e consertos com troca de peças dependem da
+              entrega das peças.
+            </p>
+          </details>
+          <details>
+            <summary>Perco meus arquivos ao formatar?</summary>
+            <p>
+              Fazemos o backup antes quando você solicita. Avise na hora do
+              orçamento para incluirmos no prazo e no valor.
+            </p>
+          </details>
+          <details>
+            <summary>Posso levar minhas próprias peças?</summary>
+            <p>
+              Pode. Verificamos a compatibilidade e cobramos apenas a mão de
+              obra.
+            </p>
+          </details>
+          <details>
+            <summary>Como posso pagar?</summary>
+            <p>Pix, débito ou crédito em até 3x.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div>
+          <a class="logo" href="#">Bancada<span>Tech</span></a>
+          <p>Montagem e manutenção de computadores</p>
+        </div>
+        <div>
+          <p><strong>Atendimento</strong></p>
+          <p>Seg a sex, 9h às 18h</p>
+          <p>Sáb, 9h às 13h</p>
+        </div>
+        <div>
+          <p><strong>Contato</strong></p>
+          <p>
+            <a
+              href="https://wa.me/5574999494610"
+              target="_blank"
+              rel="noopener noreferrer"
+              >WhatsApp: (74) 99949-4610</a
+            >
+          </p>
+          <p>Instagram: @bancadatech</p>
+        </div>
+      </div>
+    </footer>
+
+    <a class="btn wa-float" id="fl" href="#orcamento">WhatsApp</a>
+
+    <script>
+      // Troque pelo seu número, com 55 + DDD + número (somente dígitos)
+      var NUMERO = "5574999494610";
+      function link(t) {
+        return "https://wa.me/" + NUMERO + "?text=" + encodeURIComponent(t);
+      }
+      document.getElementById("fl").href = link(
+        "Olá! Vim pelo site e gostaria de um orçamento.",
+      );
+      document.getElementById("f").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var t =
+          "Olá! Gostaria de um orçamento.\nServiço: " +
+          document.getElementById("srv").value +
+          "\nEquipamento: " +
+          (document.getElementById("eq").value || "não informado") +
+          "\nDescrição: " +
+          (document.getElementById("msg").value || "não informado");
+        window.open(link(t), "_blank", "noopener");
+      });
+    </script>
+  </body>
+</html>
